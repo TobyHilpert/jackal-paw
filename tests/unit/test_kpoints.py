@@ -1,4 +1,4 @@
-from jaxpw.lattice.kpoints import gamma_only, monkhorst_pack
+from jackal.lattice.kpoints import gamma_only, monkhorst_pack
 
 
 def test_gamma_only():

@@ -2,10 +2,10 @@ import pytest
 
 ase = pytest.importorskip("ase")
 from ase.build import bulk
-from jaxpw.calculator.ase_calculator import JaxPWCalculator
+from jackal.calculator.ase_calculator import JaxPWCalculator
 
 
-def test_si_gamma_scaffold_raises_notimplemented(tmp_path):
+def test_si_gamma_scaffold_computes_energy(tmp_path):
     yaml_path = tmp_path / "in.yaml"
     yaml_path.write_text(
         """
@@ -21,5 +21,5 @@ def test_si_gamma_scaffold_raises_notimplemented(tmp_path):
     atoms = bulk("Si", "diamond", a=5.43)
     calc = JaxPWCalculator(input_yaml=str(yaml_path))
     atoms.calc = calc
-    with pytest.raises(NotImplementedError):
-        atoms.get_potential_energy()
+    energy = atoms.get_potential_energy()
+    assert isinstance(energy, float)

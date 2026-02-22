@@ -3,10 +3,10 @@ from __future__ import annotations
 import numpy as np
 from ase.calculators.calculator import Calculator, all_changes
 
-from jaxpw.calculator.results_cache import ResultsCache
-from jaxpw.io.ase_io import atoms_to_system
-from jaxpw.io.yaml_input import InputParams, load_input
-from jaxpw.workflows.single_point import run_single_point
+from jackal.calculator.results_cache import ResultsCache
+from jackal.io.ase_io import atoms_to_system
+from jackal.io.yaml_input import InputParams, load_input
+from jackal.workflows.single_point import run_single_point
 
 
 class JaxPWCalculator(Calculator):

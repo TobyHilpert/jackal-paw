@@ -1,5 +1,5 @@
 from pathlib import Path
-from jaxpw.io.yaml_input import load_input
+from jackal.io.yaml_input import load_input
 
 
 def test_load_minimal_yaml(tmp_path: Path):

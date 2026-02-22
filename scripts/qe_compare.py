@@ -1,1 +1,1 @@
-"""Placeholder utility to compare jaxpw outputs with Quantum ESPRESSO results."""
+"""Placeholder utility to compare jackal outputs with Quantum ESPRESSO results."""

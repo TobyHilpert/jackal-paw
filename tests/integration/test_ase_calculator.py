@@ -3,7 +3,7 @@ import pytest
 ase = pytest.importorskip("ase")
 
 from inspect import isclass
-from jaxpw.calculator.ase_calculator import JaxPWCalculator
+from jackal.calculator.ase_calculator import JaxPWCalculator
 
 
 def test_calculator_class_exists():

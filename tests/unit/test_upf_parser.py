@@ -1,5 +1,5 @@
 from pathlib import Path
-from jaxpw.io.upf_parser import parse_upf
+from jackal.io.upf_parser import parse_upf
 
 
 def test_parse_minimal_upf(tmp_path: Path):

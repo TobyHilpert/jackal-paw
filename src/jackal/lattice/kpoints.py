@@ -3,7 +3,7 @@ from __future__ import annotations
 import itertools
 import numpy as np
 
-from jaxpw.core.types import KPointGrid
+from jackal.core.types import KPointGrid
 
 
 def gamma_only() -> KPointGrid:

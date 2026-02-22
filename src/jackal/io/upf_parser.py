@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from jaxpw.core.types import PseudopotentialData
+from jackal.core.types import PseudopotentialData
 
 
 def parse_upf(path: str | Path) -> PseudopotentialData:

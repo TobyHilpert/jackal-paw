@@ -1,0 +1,16 @@
+structure:
+  path: structure.cif
+pseudopotentials:
+  Al: /path/to/Al.UPF
+basis:
+  ecutwfc: 35.0
+  ecutrho: 280.0
+kpoints:
+  mode: monkhorst-pack
+  grid: [8, 8, 8]
+  shift: [0, 0, 0]
+xc:
+  functional: pbe
+occupations:
+  smearing: fermi-dirac
+  degauss: 0.02

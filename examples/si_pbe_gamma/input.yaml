@@ -1,0 +1,42 @@
+structure:
+  path: structure.cif
+
+pseudopotentials:
+  Si: /path/to/Si.UPF
+
+basis:
+  ecutwfc: 40.0      # Ry
+  ecutrho: 320.0     # Ry
+
+kpoints:
+  mode: gamma
+
+xc:
+  functional: pbe
+
+occupations:
+  smearing: fixed
+
+scf:
+  max_iter: 60
+  etol: 1.0e-8
+  rhotol: 1.0e-6
+  mixing_beta: 0.4
+  mixing_ndim: 8
+  kerker_q0: 1.0
+
+diagonalization:
+  method: blocked_davidson
+  nbands: 8
+  block_size: 4
+  max_subspace: 40
+  residual_tol: 1.0e-8
+
+autodiff:
+  scf_diff: implicit
+  stress_mode: strain_ad
+
+runtime:
+  precision: float64
+  device: cpu
+  jit: true

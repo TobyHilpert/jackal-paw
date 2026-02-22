@@ -9,6 +9,7 @@ from jackal.autodiff.forces import compute_forces
 from jackal.autodiff.stress import compute_stress
 from jackal.core.types import System
 from jackal.core.units import BOHR_TO_ANG, HARTREE_TO_EV
+from jackal.electrostatics.ewald import ion_ion_energy
 from jackal.io.upf_parser import parse_upf
 from jackal.io.yaml_input import InputParams
 from jackal.lattice.cell import cell_volume
@@ -26,20 +27,12 @@ class SinglePointResult:
     metadata: dict
 
 
-def _toy_energy_hartree(positions_ang, cell_ang, numbers):
-    pos_b = positions_ang / BOHR_TO_ANG
+def _electrostatic_energy_hartree(positions_ang, cell_ang, numbers):
     cell_b = cell_ang / BOHR_TO_ANG
     z = numbers.astype(float)
-
-    e_pair = 0.0
-    for i in range(len(z)):
-        for j in range(i + 1, len(z)):
-            rij = np.linalg.norm(pos_b[i] - pos_b[j]) + 1e-8
-            e_pair += 0.25 * z[i] * z[j] / rij
-
     vol = max(abs(np.linalg.det(cell_b)), 1e-10)
-    e_bg = 0.02 * np.sum(z) / vol
-    return e_pair + e_bg
+    # Simple neutralizing-background correction to keep finite-size scaling stable.
+    return ion_ion_energy(cell_ang, positions_ang, numbers) + 0.02 * np.sum(z) / vol
 
 
 def run_single_point(system: System, params: InputParams) -> SinglePointResult:
@@ -58,18 +51,24 @@ def run_single_point(system: System, params: InputParams) -> SinglePointResult:
         except FileNotFoundError:
             pp_meta[sym] = "missing"
 
-    energy_h = _toy_energy_hartree(system.positions, system.cell, system.numbers)
+    energy_h = _electrostatic_energy_hartree(system.positions, system.cell, system.numbers)
 
     def e_pos_jax(pos, cell, numbers):
         pos_b = pos / BOHR_TO_ANG
+        cell_b = cell / BOHR_TO_ANG
         z = numbers.astype(jnp.float64)
         e_pair = 0.0
         n = pos.shape[0]
+        inv_cell_t = jnp.linalg.inv(cell_b.T)
         for i in range(n):
             for j in range(i + 1, n):
-                rij = jnp.linalg.norm(pos_b[i] - pos_b[j]) + 1e-8
-                e_pair = e_pair + 0.25 * z[i] * z[j] / rij
-        vol = jnp.abs(jnp.linalg.det(cell / BOHR_TO_ANG)) + 1e-10
+                dr = pos_b[i] - pos_b[j]
+                frac = inv_cell_t @ dr
+                frac = frac - jnp.round(frac)
+                dr_mic = cell_b.T @ frac
+                rij = jnp.linalg.norm(dr_mic) + 1e-8
+                e_pair = e_pair + z[i] * z[j] / rij
+        vol = jnp.abs(jnp.linalg.det(cell_b)) + 1e-10
         return e_pair + 0.02 * jnp.sum(z) / vol
 
     forces_h_per_bohr = compute_forces(e_pos_jax, system.positions, system.cell, system.numbers)

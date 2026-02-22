@@ -1,5 +1,5 @@
 from ase.build import bulk
-from jaxpw.calculator.ase_calculator import JaxPWCalculator
+from jackal.calculator.ase_calculator import JaxPWCalculator
 
 atoms = bulk("Si", "diamond", a=5.43)
 calc = JaxPWCalculator(input_yaml="examples/si_pbe_gamma/input.yaml")

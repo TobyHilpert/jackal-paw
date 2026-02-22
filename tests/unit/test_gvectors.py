@@ -1,5 +1,5 @@
 import numpy as np
-from jaxpw.lattice.gvectors import generate_gvectors
+from jackal.lattice.gvectors import generate_gvectors
 
 
 def test_generate_gvectors_shape():

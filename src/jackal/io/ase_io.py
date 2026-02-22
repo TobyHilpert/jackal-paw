@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 from ase import Atoms
 
-from jaxpw.core.types import System
+from jackal.core.types import System
 
 
 def atoms_to_system(atoms: Atoms, charge: float = 0.0) -> System:

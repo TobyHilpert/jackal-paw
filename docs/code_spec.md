@@ -120,7 +120,7 @@ The original requirement list omits several capabilities that are essential in p
 
 ### 3.1 Proposed package layout
 ```text
-jaxpw/
+jackal/
   calculator/
   io/
   core/

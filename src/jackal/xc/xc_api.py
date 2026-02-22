@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from jaxpw.xc import lda, pbe
+from jackal.xc import lda, pbe
 
 
 def get_xc_functional(name: str):

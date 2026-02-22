@@ -5,12 +5,12 @@ from pathlib import Path
 
 from ase.io import read
 
-from jaxpw.io.yaml_input import load_input
-from jaxpw.calculator.ase_calculator import JaxPWCalculator
+from jackal.io.yaml_input import load_input
+from jackal.calculator.ase_calculator import JaxPWCalculator
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run jaxpw single-point calculation from YAML input")
+    parser = argparse.ArgumentParser(description="Run jackal single-point calculation from YAML input")
     parser.add_argument("input_yaml", type=Path)
     args = parser.parse_args()
 
